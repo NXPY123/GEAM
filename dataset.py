@@ -1,4 +1,4 @@
-from dgl.data import CoraDataset, CitationGraphDataset
+from dgl.data import CitationGraphDataset
 from utils import preprocess_features, normalize_adj,normalize
 from sklearn.preprocessing import MinMaxScaler
 from utils import *
