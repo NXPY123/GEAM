@@ -119,6 +119,9 @@ def train(args, verbose=True):
         time_after_epoch=time.time()
         print("Cost time: {:.2f}".format(time_after_epoch-time_before_epoch))
 
+    torch.save(model.state_dict(), "model_weights.pth")
+    print("Model weights saved to model_weights.pth")
+
 
 def test(args,H,labels,epoch,verbose):
     Q=0;n=0;a=0;p=0
