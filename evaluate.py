@@ -33,8 +33,11 @@ if 'academia' in args.dataset:
     args.with_gt = True
     args.test_Q = False
     args.perEpoch_Q = 10
+    args.weights_path = "/content/model_weights.pth"
 
 print(args)
+
+WEIGHTS_PATH = args.weights_path
 
 num_layer=args.num_layer
 nb_epochs = args.nb_epochs
@@ -58,7 +61,7 @@ lbl_2 = torch.zeros(batch_size, sample_size * 2)
 lbl = torch.cat((lbl_1, lbl_2), 1)
 model = Model(args, ft_size, hid_units)
 optimiser = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=l2_coef)
-
+model.load_state_dict(torch.load(WEIGHTS_PATH, weights_only=True))
 model.cpu()
 labels = labels.cpu() # Not used
 lbl = lbl.cpu() # Not used
