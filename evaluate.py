@@ -46,10 +46,10 @@ lr = args.lr
 l2_coef = args.l2_coef
 hid_units = args.hid_units
 sparse = args.sparse
-dataset = args.dataset
+dataset_pth = args.dataset
 
 # Load data 
-_, _, features, labels  = dataset.load(dataset,1,args) # labels not used
+_, _, features, labels  = dataset.load(dataset_pth,1,args) # labels not used
 ft_size = features.shape[1]
 nb_classes = np.unique(labels).shape[0] # Not used
 
@@ -72,7 +72,7 @@ data=[]
 
 for layer in range(num_layer):
             
-    adj, diff, features, labels = load(dataset,layer+1,args)
+    adj, diff, features, labels = dataset.load(dataset_pth,layer+1,args)
     ba, bd, bf = [], [], []
     i=0
     # adj
