@@ -64,7 +64,7 @@ def load_graph(dataset, layer_id):
             idx.append(lis[i][0])
         idx = np.array(idx)
     else:
-         idx = np.array([i for i in range(0,n)], dtype=np.int32) # Changes: Changed 1 to n+1 to 0 to n here
+         idx = np.array([i for i in range(1,n+1)], dtype=np.int32) 
 
     edges_unordered = np.genfromtxt(path, dtype=np.int32)
     idx_map = {j: i for i, j in enumerate(idx)}
