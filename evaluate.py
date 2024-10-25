@@ -27,7 +27,7 @@ if 'aucs' in args.dataset:
     args.sample_size = 61
     args.with_gt = False
 if 'academia' in args.dataset:
-    args.num_layer = 3
+    args.num_layer = 2
     args.num_cluster = 4
     args.sample_size = 500
     args.with_gt = True
