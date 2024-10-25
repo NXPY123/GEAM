@@ -29,7 +29,7 @@ if 'aucs' in args.dataset:
 if 'academia' in args.dataset:
     args.num_layer = 2
     args.num_cluster = 4
-    args.sample_size = 500
+    args.sample_size = 8
     args.with_gt = True
     args.test_Q = False
     args.perEpoch_Q = 10
@@ -61,7 +61,7 @@ lbl_2 = torch.zeros(batch_size, sample_size * 2)
 lbl = torch.cat((lbl_1, lbl_2), 1)
 model = Model(args, ft_size, hid_units)
 optimiser = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=l2_coef)
-model.load_state_dict(torch.load(WEIGHTS_PATH, weights_only=True))
+#model.load_state_dict(torch.load(WEIGHTS_PATH, weights_only=True))
 model.cpu()
 labels = labels.cpu() # Not used
 lbl = lbl.cpu() # Not used
@@ -103,13 +103,14 @@ for layer in range(num_layer):
     shuf_fts = shuf_fts.cpu()
 
     data.append([bf, shuf_fts, ba, bd])
+    #print(data)
+optimiser.zero_grad()
 
-    optimiser.zero_grad()
+logits, logit_all, z, q = model(data, sparse, None) 
+p = train.target_distribution(q)
 
-    logits, logit_all, z, q = model(data, sparse, None) 
-    p = train.target_distribution(q)
+probabilities = F.softmax(logits[0], dim=1)
+#probabilities = F.softmax(logits, dim=1)
 
-
-    probabilities = F.softmax(logits, dim=1)
-    predictions = torch.argmax(probabilities, dim=1)
-    print(predictions)
+predictions = torch.argmax(probabilities, dim=1)
+print(predictions)
