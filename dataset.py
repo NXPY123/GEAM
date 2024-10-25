@@ -30,7 +30,8 @@ def load(dataset,layer_id,args):
         elif initial_feat=="node2vec":
             feat = np.loadtxt('multi_data/{}_layer{}_node2vec.txt'.format(dataset, layer_id), dtype=float)
 
-        labels = np.loadtxt('multi_data/{}_label.txt'.format(dataset), dtype=int)
+        #labels = np.loadtxt('multi_data/{}_label.txt'.format(dataset), dtype=int)
+        labels = np.ones((1,1)) # Changes: Labels not used for now
 
         os.makedirs(datadir)
         np.save('{}/adj.npy'.format(datadir), adj)
@@ -63,10 +64,11 @@ def load_graph(dataset, layer_id):
             idx.append(lis[i][0])
         idx = np.array(idx)
     else:
-         idx = np.array([i for i in range(1,n+1)], dtype=np.int32)
+         idx = np.array([i for i in range(0,n)], dtype=np.int32) # Changes: Changed 1 to n+1 to 0 to n here
 
     edges_unordered = np.genfromtxt(path, dtype=np.int32)
     idx_map = {j: i for i, j in enumerate(idx)}
+    
     edges = np.array(list(map(idx_map.get, edges_unordered.flatten())),
                     dtype=np.int32).reshape(edges_unordered.shape)
     adj = sp.coo_matrix((np.ones(edges.shape[0]), (edges[:, 0], edges[:, 1])),
